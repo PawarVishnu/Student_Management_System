@@ -7,49 +7,69 @@ import com.sms.model.Student;
 
 public class StudentService {
 
-    private StudentDAO studentDAO = new StudentDAO();
+    private StudentDAO dao;
 
-    // ====== Add Student with Validation ======
-    public String addStudent(Student student) {
-
-        // Validation
-        if (student.getName() == null || student.getName().isEmpty()) {
-            return "Student नाव रिकामं असू शकत नाही";
-        }
-
-        if (student.getAge() < 16) {
-            return "Student वय 16 पेक्षा कमी असू शकत नाही";
-        }
-
-        if (student.getPaidFees() > student.getTotalFees()) {
-            return "Paid fees total fees पेक्षा जास्त असू शकत नाही";
-        }
-
-        // Default values
-        student.setStatus("Active");
-        student.setLifeCycle("ACTIVE");
-
-        studentDAO.addStudent(student);
-        return "Student successfully add झाला";
+    public StudentService() {
+        dao = new StudentDAO();
     }
 
-    // ====== Get All Students ======
-    public List<Student> getAllStudents() {
-        return studentDAO.getAllStudents();
-    }
+ // 🔹 ADD STUDENT
+    public String addStudent(Student s) {
 
-    // ====== Get Student By ID ======
-    public Student getStudentById(int studentId) {
-        return studentDAO.getStudentById(studentId);
-    }
+        boolean status = false;
+        try {
+            status = dao.addStudent(s);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-    // ====== Delete Student ======
-    public String deleteStudent(int studentId) {
-        boolean result = studentDAO.deleteStudent(studentId);
-        if (result) {
-            return "Student Inactive केला";
+        if (status) {
+            return "Student successfully add झाला";
         } else {
-            return "Student सापडला नाही";
+            return "Student add failed";
+        }
+    }
+
+    // 🔹 VIEW ALL STUDENTS
+    public List<Student> getAllStudents() {
+        List<Student> list = null;
+        try {
+            list = dao.getAllStudents();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    // 🔹 GET STUDENT BY ID (FOR UPDATE)
+    public Student getStudentById(int id) {
+        Student s = null;
+        try {
+            s = dao.getStudentById(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return s;
+    }
+
+    public boolean updateStudent(Student s) {
+        try {
+            dao.updateStudent(s);   // ✅ void method call
+            return true;            // update successful
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    // 🔹 DELETE STUDENT
+ 
+    public boolean deleteStudent(int id) {
+        try {
+            dao.deleteStudent(id);   // ✅ void method call
+            return true;             // delete successful
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
     }
 }
