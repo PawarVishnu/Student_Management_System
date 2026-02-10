@@ -72,4 +72,44 @@ public class StudentService {
             return false;
         }
     }
+    
+    // =======================
+    // 📊 DASHBOARD METHODS
+    // =======================
+
+    // 🔹 TOTAL STUDENTS
+    public int getTotalStudents() {
+        int total = 0;
+        try {
+            total = dao.getTotalStudents();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return total;
+    }
+
+    // 🔹 ACTIVE STUDENTS
+    public int getActiveStudents() {
+        int active = 0;
+        try {
+            active = dao.getActiveStudents();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return active;
+    }
+
+    // 🔹 INACTIVE STUDENTS
+    public int getInactiveStudents() {
+        int inactive = 0;
+        try {
+            inactive = dao.getInactiveStudents();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return inactive;
+    }
 }
+
+    
+
